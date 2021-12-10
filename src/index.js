@@ -11,6 +11,9 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send({ msg: 'Server is running' });
 });
+
+const authRoutes = require('./routes/authRoutes');
+app.use('/auth', authRoutes);
   
 app.all('*', (req, res) => {
     res.status(404).send({ error: 'Page not found' });
