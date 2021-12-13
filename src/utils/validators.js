@@ -9,8 +9,8 @@ async function validateUser(req, res, next) {
         email: joi.string().email().required(),
         password: joi.string().min(6).required(),
         repeatPassword: joi.ref('password'),
-        city: joi.string().max(90),
-        phone: joi.string().regex(/^(\+370|8)([0-9]{8})$/)
+        city: joi.string().max(90).optional().allow(''),
+        phone: joi.string().regex(/^(\+370|8)([0-9]{8})$/).optional().allow('')
     });
     try {
         await schema.validateAsync(req.body, { abortEarly: false });
