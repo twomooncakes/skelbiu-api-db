@@ -1,4 +1,6 @@
 const { hashValue, verifyHash } = require('../utils/hashHelper');
+const {dbAction, dbFail, dbSuccess} = require('../utils/dbHelper');
+const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
     const newUser = {
@@ -7,13 +9,40 @@ const register = async (req, res) => {
         city: req.body.city,
         phone: req.body.phone
     }
-    // !! needs db action
-    console.log(newUser);
-    res.send({msg: 'Registration successful!'})
+    const sql = `
+        INSERT INTO users(email, password, city, phone)
+        VALUES(?, ?, ?, ?)
+    `;
+    // check if user exists
+
+    // add new user
+    const dbResult = await dbAction(sql, Object.values(newUser));
+    if(dbResult) {
+        return dbSuccess(res, dbResult, 'Registration successful!')
+    } 
+    dbFail(res, 'Registration failed');
 }
 
 const login = async (req, res) => {
-
+    const userData = req.body;
+    const sql = `
+        SELECT * FROM users
+        WHERE email = (?)
+    `;
+    const dbResult = await dbAction(sql, [userData.email]);
+    if(dbResult.length === 0) {
+        return dbFail(res, 'Incorrect email or password', 400)
+    }
+    console.log(dbResult);
+    if(verifyHash(userData, dbResult)) {
+        const token = jwt.sign(
+            {id: dbResult[0].id, email: dbResult[0].email}, 
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '1h' },
+        );
+        return dbSuccess(res, dbResult, 'Successfully logged in!');
+    }
+    dbFail(res, 'Incorrect email or password2', 400);
 }
 
 module.exports = {
