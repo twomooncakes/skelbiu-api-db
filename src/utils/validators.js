@@ -1,7 +1,7 @@
 const joi = require('joi');
 const jwt = require('jsonwebtoken');
 
-async function validateUser(req, res, next) {
+async function validateUserRegister(req, res, next) {
     console.log('validated:', req.body);
 
     // validate body using joi
@@ -9,7 +9,7 @@ async function validateUser(req, res, next) {
         email: joi.string().email().required(),
         password: joi.string().min(6).required(),
         repeatPassword: joi.ref('password'),
-        city: joi.string().max(90).optional().allow(''),
+        city: joi.string().max(90).regex(/^[a-zA-z]+([\s][a-zA-Z]+)*$/, 'letters and spaces only').optional().allow(''),
         phone: joi.string().regex(/^(\+370|8)([0-9]{8})$/).optional().allow('')
     });
     try {
@@ -19,7 +19,31 @@ async function validateUser(req, res, next) {
         console.warn(error);
         res.status(400).send({
             error: error.details.map((e) => ({
-                error: e.message,
+                errorMsg: e.message,
+                field: e.context.key,
+            })),
+        });
+        return false;
+    }
+}
+
+
+async function validateUserLogin(req, res, next) {
+    console.log('validated:', req.body);
+
+    // validate body using joi
+    const schema = joi.object({
+        email: joi.string().email({ minDomainSegments: 2 }).required(),
+        password: joi.string().min(6).required(),
+    });
+    try {
+        await schema.validateAsync(req.body, { abortEarly: false });
+        next();
+    } catch (error) {
+        console.warn(error);
+        res.status(400).send({
+            error: error.details.map((e) => ({
+                errorMsg: e.message,
                 field: e.context.key,
             })),
         });
@@ -42,5 +66,5 @@ function authenticateToken(req, res, next) {
 }
 
 module.exports = {
-    validateUser, authenticateToken
+    validateUserRegister, validateUserLogin, authenticateToken
 };
