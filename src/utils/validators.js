@@ -51,6 +51,31 @@ async function validateUserLogin(req, res, next) {
     }
 }
 
+async function validateNewListing(req, res, next) {
+    console.log('validated:', req.body);
+    // validate body using joi
+    // weird stuff with validation
+    const schema = joi.object({
+        title: joi.string().max(25),
+        description: joi.string().min(3).optional().allow(''),
+        price: joi.number().min(0),
+        mainImage: joi.string().optional().allow('')
+    });
+    try {
+        await schema.validateAsync(req.body, { abortEarly: false });
+        next();
+    } catch (error) {
+        console.warn(error);
+        res.status(400).send({
+            error: error.details.map((e) => ({
+                errorMsg: e.message,
+                field: e.context.key,
+            })),
+        });
+        return false;
+    }
+}
+
 function authenticateToken(req, res, next) {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(" ")[1];
@@ -66,5 +91,5 @@ function authenticateToken(req, res, next) {
 }
 
 module.exports = {
-    validateUserRegister, validateUserLogin, authenticateToken
+    validateUserRegister, validateUserLogin, validateNewListing, authenticateToken
 };
