@@ -21,6 +21,9 @@ app.use('/auth', authRoutes);
 const listingRoutes = require('./routes/listingRoutes');
 app.use('/listings', listingRoutes);
 
+const userRoutes = require('./routes/userRoutes');
+app.use('/user', userRoutes);
+
 app.all('*', (req, res) => {
     res.status(404).send({ error: 'Page not found' });
 });
