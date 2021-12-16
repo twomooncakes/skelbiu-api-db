@@ -35,6 +35,18 @@ const favoriteListing = async (req, res) => {
     res.send({msg: 'listing favorited', data: dbResult});
 }
 
+const unfavoriteListing = async (req, res) => {
+    console.log(req.headers.authorization);
+    console.log(req.params.listingId);
+    console.log('req.body ===' , req.body);
+    let sql = `
+        DELETE FROM favorites 
+        WHERE user_id = (?) AND listing_id = (?)
+    `;
+    const dbResult = await dbAction(sql, [req.id , req.params.listingId]);
+    res.send({msg: 'listing unfavorited', data: dbResult});
+}
+
 const getListings = async (req, res) => {
     console.log(req.headers.authorization);
     console.log(req.id);
@@ -83,5 +95,5 @@ const getUserListings = async (req, res) => {
 
 
 module.exports = {
-    addListing, favoriteListing, getListings, getUserListings
+    addListing, favoriteListing, unfavoriteListing, getListings, getUserListings
 };

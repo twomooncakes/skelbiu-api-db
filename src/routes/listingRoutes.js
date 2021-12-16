@@ -9,6 +9,8 @@ router.post('/new', validateNewListing, authenticateToken, upload.single('mainIm
 
 router.post('/favorite/:listingId', authenticateToken, listingController.favoriteListing);
 
+router.post('/unfavorite/:listingId', authenticateToken, listingController.unfavoriteListing);
+
 router.get('/all', listingController.getListings);
 
 router.get('/all/authed', authenticateToken, listingController.getListings);
