@@ -3,7 +3,7 @@ const cors = require('cors');
 
 const path = require('path');
 
-const { serverPort } = require('./DBconfig');
+const { PORT } = require('./DBconfig');
 
 const app = express();
 
@@ -26,6 +26,6 @@ app.all('*', (req, res) => {
 });
   
 app.listen(serverPort, () => {
-    console.log(`Running on port: ${serverPort}`)
+    console.log(`Running on port: ${PORT}`)
 })
   
