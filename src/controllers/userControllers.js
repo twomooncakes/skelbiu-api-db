@@ -19,11 +19,21 @@ const getUserInfo = async (req, res) => {
 
 const editUserInfo = async (req, res) => {
     console.log(req.id);
-    // let sql = `
-    //     SELECT * FROM users
-    //     WHERE id = ?
-    // `;
-    // const dbResult = await dbAction(sql, [req.id]);
+    console.log('body below');
+    console.log(req.body);
+    const newInfo = {
+        city: req.body.city || null,
+        phone: req.body.phone || null,
+        id: req.id
+    }
+    let sql = `
+        UPDATE users
+        SET 
+            city = ?,
+            phone = ?
+        WHERE id = ?
+    `;
+    const dbResult = await dbAction(sql, Object.values(newInfo));
     res.send({msg: 'user info edited'});
 }
 

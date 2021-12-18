@@ -8,6 +8,7 @@ router.get('/', authenticateToken, userControllers.getUserInfo);
 
 // POST EDIT ROUTES
 router.post('/edit/info', authenticateToken, userControllers.editUserInfo);
-router.post('/edit/credentials', authenticateToken, userControllers.editUserInfo);
+router.post('/edit/email', authenticateToken, userControllers.editUserInfo);
+router.post('/edit/password', authenticateToken, userControllers.editUserInfo);
 
 module.exports = router;
