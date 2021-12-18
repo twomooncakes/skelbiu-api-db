@@ -51,12 +51,18 @@ const getListings = async (req, res) => {
     console.log(req.headers.authorization);
     console.log(req.id);
     let sql = `
-        SELECT * FROM listings
+        SELECT listings.*,
+        users.email AS seller,
+        users.city
+        FROM listings
+        LEFT JOIN users
+        ON users.id = listings.user_id
     `;
     if(req.headers.authorization) {
         sql = `
             SELECT listings.*,
             users2.email AS seller,
+            users2.city,
             categories.category_name, 
             GROUP_CONCAT(users.email) AS likedBy 
             FROM listings 
@@ -81,6 +87,7 @@ const getUserListings = async (req, res) => {
     let sql = `
         SELECT listings.*,
         users.email AS seller,
+        users.city,
         categories.category_name
         FROM listings 
         LEFT JOIN categories
@@ -93,7 +100,35 @@ const getUserListings = async (req, res) => {
     res.send({msg: 'listings fetched', data: dbResult});
 }
 
+const getSingleListing = async (req, res) => {
+    console.log(req.headers.authorization);
+    console.log(req.params.listingId);
+    let sql = `
+        SELECT listings.*,
+        users.*,
+        categories.category_name,
+        GROUP_CONCAT(users2.email) AS likedBy
+        FROM listings
+        LEFT JOIN users
+        ON users.id = listings.user_id
+        LEFT JOIN categories
+        ON categories.id = listings.cat_id
+        LEFT JOIN favorites
+        ON favorites.listing_id = listings.id 
+        LEFT JOIN users AS users2 
+        ON users2.id = favorites.user_id 
+        WHERE listings.id = (?)
+    `;
+    // if(req.headers.authorization) {
+    //     sql = `
+ 
+    //     `;
+    // }
+    const dbResult = await dbAction(sql, [req.params.listingId]);
+    res.send({msg: 'listings fetched', data: dbResult});
+}
+
 
 module.exports = {
-    addListing, favoriteListing, unfavoriteListing, getListings, getUserListings
+    addListing, favoriteListing, unfavoriteListing, getListings, getUserListings, getSingleListing
 };
