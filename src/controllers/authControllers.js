@@ -42,7 +42,6 @@ const login = async (req, res) => {
     if(dbResult.length === 0) {
         return dbFail(res, 'Incorrect email or password', 400)
     }
-    console.log(dbResult);
     if(verifyHash(userData, dbResult)) {
         const token = jwt.sign(
             {id: dbResult[0].id, email: dbResult[0].email}, 

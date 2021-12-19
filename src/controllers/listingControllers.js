@@ -21,7 +21,7 @@ const addListing = async (req, res) => {
     `;
     const dbResult = await dbAction(sql, Object.values(newListing));
 
-    res.send({ msg: 'image saved', dbResult});
+    res.send({ msg: 'listing created', dbResult});
 }
 
 const favoriteListing = async (req, res) => {
@@ -128,7 +128,35 @@ const getSingleListing = async (req, res) => {
     res.send({msg: 'listings fetched', data: dbResult});
 }
 
+const editListing = async (req, res) => {
+    console.log('req.body ===', req.body);
+    
+    const editedListing = {
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        image: req.body.mainImage || req.file.filename,
+        id: req.params.listingId
+    }
+    // if (req.file.size >= 500000) {
+    //   res.status(400).json({ error: 'Too big' });
+    // }
+    console.log(Object.values(editedListing));
+    const sql = `
+        UPDATE listings
+        SET
+            title = ?,
+            description = ?,
+            price = ?, 
+            image = ?
+        WHERE id = (?)
+    `;
+    const dbResult = await dbAction(sql, Object.values(editedListing));
+
+    res.send({ msg: 'listing edited' });
+}
+
 
 module.exports = {
-    addListing, favoriteListing, unfavoriteListing, getListings, getUserListings, getSingleListing
+    addListing, favoriteListing, unfavoriteListing, getListings, getUserListings, getSingleListing, editListing
 };

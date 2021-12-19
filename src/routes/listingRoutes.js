@@ -21,4 +21,7 @@ router.get('/user-listings', authenticateToken, listingController.getUserListing
 // GET /:listingId - gets listing and seller info by listing id
 router.get('/:listingId', listingController.getSingleListing);
 
+// POST /:listingId - gets listing and seller info by listing id
+router.post('/edit/:listingId', validateNewListing, authenticateToken, upload.single('mainImage'), listingController.editListing);
+
 module.exports = router;

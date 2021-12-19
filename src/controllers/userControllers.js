@@ -1,4 +1,5 @@
-const { dbAction } = require("../utils/dbHelper");
+const { dbAction, dbFail, dbSuccess } = require("../utils/dbHelper");
+const { verifyHash } = require("../utils/hashHelper");
 
 const getUserInfo = async (req, res) => {
     console.log(req.id);
@@ -37,6 +38,37 @@ const editUserInfo = async (req, res) => {
     res.send({msg: 'user info edited'});
 }
 
+const editUserEmail = async (req, res) => {
+    console.log(req.id);
+    console.log('body below');
+    console.log(req.body);
+    const userData = req.body;
+    let sql = `
+        SELECT * FROM users
+        WHERE id = (?)
+    `;
+    let dbResult = await dbAction(sql, [req.id]);
+    if(!dbResult) {
+        return dbFail(res, 'Unexpected Error', 500)
+    }
+
+    if(!verifyHash(userData, dbResult)) {
+        return dbFail(res, 'Password is incorrect', 400)
+    }
+
+    sql = `
+        UPDATE users
+        SET email = ?
+        WHERE id = ?
+    `;
+    dbResult = await dbAction(sql, [req.body.email, req.id]);
+    if(dbResult) {
+        return dbSuccess(res, {}, 'User email edited')
+    } else {
+        return dbFail(res, 'Unexpected Error', 500)
+    }
+}
+
 module.exports = {
-    getUserInfo, editUserInfo
+    getUserInfo, editUserInfo, editUserEmail
 };
