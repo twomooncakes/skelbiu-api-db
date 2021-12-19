@@ -2,14 +2,11 @@ const joi = require('joi');
 const jwt = require('jsonwebtoken');
 
 async function validateUserRegister(req, res, next) {
-    console.log('validated:', req.body);
-
-    // validate body using joi
     const schema = joi.object({
         email: joi.string().email().required(),
         password: joi.string().min(6).required(),
         repeatPassword: joi.ref('password'),
-        city: joi.string().max(90).regex(/^[a-zA-z]+([\s][a-zA-Z]+)*$/, 'letters and spaces only').optional().allow(''),
+        city: joi.string().max(90).regex(/^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$/, 'letters and spaces only').optional().allow(''),
         phone: joi.string().regex(/^(\+370|8)([0-9]{8})$/).optional().allow('')
     });
     try {
@@ -29,9 +26,6 @@ async function validateUserRegister(req, res, next) {
 
 
 async function validateUserLogin(req, res, next) {
-    console.log('validated:', req.body);
-
-    // validate body using joi
     const schema = joi.object({
         email: joi.string().email({ minDomainSegments: 2 }).required(),
         password: joi.string().min(6).required(),
@@ -52,17 +46,35 @@ async function validateUserLogin(req, res, next) {
 }
 
 async function validateNewListing(req, res, next) {
-    console.log('validated:', req.body);
-    // validate body using joi
-    // weird stuff with validation
     const schema = joi.object({
-        title: joi.string().max(25).required(),
+        title: joi.string().min(3).max(25).required(),
         description: joi.string().min(3).optional().allow(''),
         price: joi.number().min(0).required(),
         mainImage: joi.string().optional().allow('')
     });
     try {
         await schema.validateAsync(req.checkBody, { abortEarly: false });
+        next();
+    } catch (error) {
+        console.warn(error);
+        res.status(400).send({
+            error: error.details.map((e) => ({
+                errorMsg: e.message,
+                field: e.context.key,
+            })),
+        });
+        return false;
+    }
+}
+
+async function validateUserInfo(req, res, next) {
+    console.log('validate', req.body);
+    const schema = joi.object({
+        city: joi.string().max(90).regex(/^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$/, 'letters and spaces only').optional().allow(''),
+        phone: joi.string().regex(/^(\+370|8)([0-9]{8})$/).optional().allow('')
+    });
+    try {
+        await schema.validateAsync(req.body, { abortEarly: false });
         next();
     } catch (error) {
         console.warn(error);
@@ -84,12 +96,12 @@ function authenticateToken(req, res, next) {
         if(err) {
             return res.status(403).json({ error: "Bad token"});
         }
-        console.log("data in jwt", data)
+        // console.log("data in jwt", data)
         req.id = data.id;
         next();
     })
 }
 
 module.exports = {
-    validateUserRegister, validateUserLogin, validateNewListing, authenticateToken
+    validateUserRegister, validateUserLogin, validateNewListing, validateUserInfo, authenticateToken
 };

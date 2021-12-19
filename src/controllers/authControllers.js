@@ -14,8 +14,8 @@ const register = async (req, res) => {
         SELECT * FROM users
         WHERE email = (?)
     `;
+    
     const userExists = await dbAction(sql, [newUser.email]);
-    console.log(userExists);
     if(userExists.length !== 0) {
         return dbFail(res, 'Email is already in use!', 400)
     }

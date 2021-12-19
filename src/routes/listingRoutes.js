@@ -21,7 +21,10 @@ router.get('/user-listings', authenticateToken, listingController.getUserListing
 // GET /:listingId - gets listing and seller info by listing id
 router.get('/:listingId', listingController.getSingleListing);
 
-// POST /:listingId - gets listing and seller info by listing id
+// POST /edit/:listingId - edits listing
 router.post('/edit/:listingId', validateNewListing, authenticateToken, upload.single('mainImage'), listingController.editListing);
+
+// POST /delete/:listingId - archives listing 
+router.post('/delete/:listingId', authenticateToken, listingController.deleteListing);
 
 module.exports = router;

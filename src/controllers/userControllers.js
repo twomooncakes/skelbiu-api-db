@@ -1,9 +1,8 @@
 const { dbAction, dbFail, dbSuccess } = require("../utils/dbHelper");
-const { verifyHash } = require("../utils/hashHelper");
+const { verifyHash, hashValue } = require("../utils/hashHelper");
 
 const getUserInfo = async (req, res) => {
-    console.log(req.id);
-    let sql = `
+    const sql = `
         SELECT users.email, users.city, users.phone, users.timestamp, 
         COUNT(DISTINCT(listings.id)) AS numOfAds, 
         COUNT(DISTINCT(favorites.listing_id)) AS numOfFaves 
@@ -15,13 +14,13 @@ const getUserInfo = async (req, res) => {
         WHERE users.id = ?;
     `;
     const dbResult = await dbAction(sql, [req.id]);
-    res.send({msg: 'user info fetched', data: dbResult});
+    if(dbResult) {
+        return dbSuccess(res, dbResult, 'user info fetched');
+    }
+    dbFail(res, 'unexpected error', 500);
 }
 
 const editUserInfo = async (req, res) => {
-    console.log(req.id);
-    console.log('body below');
-    console.log(req.body);
     const newInfo = {
         city: req.body.city || null,
         phone: req.body.phone || null,
@@ -35,25 +34,26 @@ const editUserInfo = async (req, res) => {
         WHERE id = ?
     `;
     const dbResult = await dbAction(sql, Object.values(newInfo));
-    res.send({msg: 'user info edited'});
+    if(dbResult) {
+        return dbSuccess(res, {}, 'user info edited');
+    }
+    dbFail(res, 'unexpected error', 500);
 }
 
 const editUserEmail = async (req, res) => {
-    console.log(req.id);
-    console.log('body below');
-    console.log(req.body);
     const userData = req.body;
+    // check if email exists first
     let sql = `
         SELECT * FROM users
         WHERE id = (?)
     `;
     let dbResult = await dbAction(sql, [req.id]);
     if(!dbResult) {
-        return dbFail(res, 'Unexpected Error', 500)
+        return dbFail(res, 'unexpected Error', 500)
     }
 
     if(!verifyHash(userData, dbResult)) {
-        return dbFail(res, 'Password is incorrect', 400)
+        return dbFail(res, 'password is incorrect', 400)
     }
 
     sql = `
@@ -61,14 +61,53 @@ const editUserEmail = async (req, res) => {
         SET email = ?
         WHERE id = ?
     `;
+
     dbResult = await dbAction(sql, [req.body.email, req.id]);
     if(dbResult) {
-        return dbSuccess(res, {}, 'User email edited')
+        return dbSuccess(res, {}, 'user password changed')
     } else {
-        return dbFail(res, 'Unexpected Error', 500)
+        return dbFail(res, 'unexpected error', 500)
     }
 }
 
+const editUserPassword = async (req, res) => {
+    const oldPasswordData = { password: req.body.oldPassword };
+    let sql = `
+        SELECT * FROM users
+        WHERE id = (?)
+    `;
+    let dbResult = await dbAction(sql, [req.id]);
+    if(!verifyHash(oldPasswordData, dbResult)) {
+        return dbFail(res, 'incorrect password', 400);
+    }
+
+    const newPasswordValue = hashValue(req.body.newPassword);
+    sql = `
+        UPDATE users
+        SET password = ?
+        WHERE id = ?
+    `;
+    
+    dbResult = await dbAction(sql, [ newPasswordValue, req.id]);
+    if(dbResult) {
+        return dbSuccess(res, {}, 'password changed successfully');
+    }
+    dbFail(res, 'unexpected error', 500);
+    
+}
+
+const deleteUser = async (req, res) => {
+    const sql = `
+        DELETE FROM users
+        WHERE id = ?;
+    `;
+    const dbResult = await dbAction(sql, [req.id]);
+    if(dbResult) {
+        return dbSuccess(res, {}, 'user deleted successfully');
+    }
+    dbFail(res, 'unexpected error', 500);
+}
+
 module.exports = {
-    getUserInfo, editUserInfo, editUserEmail
+    getUserInfo, editUserInfo, editUserEmail, editUserPassword, deleteUser
 };

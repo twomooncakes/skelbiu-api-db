@@ -21,6 +21,9 @@ app.use('/auth', authRoutes);
 const listingRoutes = require('./routes/listingRoutes');
 app.use('/listings', listingRoutes);
 
+const categoryRoutes = require('./routes/categoryRoutes');
+app.use('/categories', categoryRoutes);
+
 const userRoutes = require('./routes/userRoutes');
 app.use('/user', userRoutes);
 
