@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2021 at 10:45 PM
+-- Generation Time: Dec 19, 2021 at 10:52 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -164,8 +164,8 @@ INSERT INTO `users` (`id`, `email`, `password`, `city`, `phone`, `timestamp`) VA
 (12, 'john@mail.com', '$2a$10$EFsV/gUqrAz2Dl1uxYUg.ebDeCPjB1j7H.o9rWESEkyCMftW5Jq/i', NULL, '864686112', '2021-12-15 06:52:08'),
 (13, 'jane@mail.com', '$2a$10$bMuEAOTmUbRsL7ljMy1yQ.7VNBIMA.pDHPPMqA32zGNBpZCdkuTWm', 'Palanga', '865544103', '2021-12-15 07:56:14'),
 (14, 'sarah@mail.com', '$2a$10$XOIxAnevZo/WRQmSq2PnX.2Q9Sw/vC5nazKWnvQ0BRxd.0BRTekBi', NULL, '868626111', '2021-12-16 08:38:10'),
-(17, 'jill@mail.com', '$2a$10$AMrTSwKttsmKCvXSb/KpBunP19B3SPBqPjM4fKFBC4EtG6w1vAgR2', 'New Klaipėda', '+37068686100', '2021-12-19 20:40:11'),
-(18, 'me@mail.com', '$2a$10$3An/z56oAZgwjMRQAraNaO74Y1CKawDih/TsRtDJ9KrKwuXG4Ii9i', 'Toronto2', '861234567', '2021-12-19 21:09:53');
+(17, 'jill@mail.com', '$2a$10$AMrTSwKttsmKCvXSb/KpBunP19B3SPBqPjM4fKFBC4EtG6w1vAgR2', 'Klaipėda', '+37068686100', '2021-12-19 20:40:11'),
+(18, 'me@mail.com', '$2a$10$3An/z56oAZgwjMRQAraNaO74Y1CKawDih/TsRtDJ9KrKwuXG4Ii9i', 'Toronto', '861234567', '2021-12-19 21:09:53');
 
 --
 -- Indexes for dumped tables
