@@ -10,10 +10,10 @@ const addListing = async (req, res) => {
         description: req.body.description,
         price: req.body.price,
         image: img,
-        cat_id: req.body.categoryId,
+        cat_id: req.body.categoryId === '' ? null : req.body.categoryId,
         userId: req.id
     }
-    console.log(Object.values(newListing));
+
     const sql = `
         INSERT INTO listings(title, description, price, image, cat_id, user_id) 
         VALUES (?, ?, ?, ?, ?, ?)

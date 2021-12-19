@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2021 at 03:23 PM
+-- Generation Time: Dec 19, 2021 at 10:45 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -74,7 +74,9 @@ INSERT INTO `favorites` (`id`, `user_id`, `listing_id`) VALUES
 (10, 11, 1),
 (12, 9, 9),
 (13, 9, 5),
-(19, 9, 8);
+(19, 9, 8),
+(34, 18, 1),
+(35, 18, 8);
 
 -- --------------------------------------------------------
 
@@ -100,8 +102,8 @@ CREATE TABLE `listings` (
 --
 
 INSERT INTO `listings` (`id`, `title`, `description`, `price`, `views`, `timestamp`, `image`, `cat_id`, `user_id`, `archived`) VALUES
-(1, 'CODWAW', 'bla bla', '15.00', 7, '2021-12-15 13:48:50', '1639587014176-683347401.png', 1, 9, 0),
-(2, 'Razer Blade 14', 'Looks still new', '1250.00', 16, '2021-12-15 13:48:57', '15769245-42455.jpg', 1, 1, 0),
+(1, 'CODWAW', 'bla bla', '15.00', 7, '2021-12-15 13:48:50', '1639587014176-683347401.png', 1, 9, 1),
+(2, 'Razer Blade 14', 'Looks still new', '1259.99', 16, '2021-12-15 13:48:57', '15769245-42455.jpg', 1, 1, 0),
 (4, 'Roomba 675', 'Barely used', '299.99', 12, '2021-12-15 13:49:02', '455646-1v1589573902.jpg', 1, 4, 0),
 (5, 'Old phonebooks', 'Novelty item for collectors of old obsolete things or bonfire material for your next camping trip. Only email or texts please', '0.00', 2, '2021-12-14 11:14:56', '123464564-4556.jpg', NULL, 4, 0),
 (6, 'Delicacy', 'tastes good, all freshly made daily', '1.00', 0, '2021-12-15 14:14:30', '1639577514814-499333876.jpg', 6, 4, 0),
@@ -109,14 +111,31 @@ INSERT INTO `listings` (`id`, `title`, `description`, `price`, `views`, `timesta
 (8, 'CODMW2', 'good game, not too many scratches', '12.00', 0, '2021-12-15 22:26:20', '1639585660735-754421239.png', 7, 1, 0),
 (9, 'CODWAW', 'good game, good condition', '11.00', 0, '2021-12-15 22:26:25', '1639876371532-855895686.png', 7, 1, 0),
 (11, 'Doge', 'fdhjfdhjfdjhfdjhfd445', '0.00', 0, '2021-12-15 22:31:35', '1639586629056-892704740.jpg', 3, 9, 0),
-(12, 'game', 'bla bla', '60.00', 0, '2021-12-15 22:26:39', '1639587014176-683347401.png', 7, 9, 0),
-(13, 'Portal 2 Steam Key', 'cheaper than lowest price on steam sale. gift it to that one friend who still didn\'t play it', '0.50', 0, '2021-12-16 08:31:23', '1639643483784-688686059.png', NULL, 9, 0),
+(12, 'game', 'bla bla', '60.00', 0, '2021-12-15 22:26:39', '1639587014176-683347401.png', 7, 9, 1),
+(13, 'Portal 2 Steam Key', 'cheaper than lowest price on steam sale. gift it to that one friend who still didn\'t play it', '0.50', 0, '2021-12-16 08:31:23', '1639643483784-688686059.png', NULL, 9, 1),
 (14, 'Hammerwatch Keys', 'fun coop game, steam only', '5.00', 0, '2021-12-16 08:56:35', '1639644995093-232942627.png', NULL, 14, 0),
-(15, 'Portal', 'good game', '2.00', 0, '2021-12-16 20:26:09', '1639686369904-306460074.png', NULL, 9, 0),
+(15, 'Portal', 'good game', '2.00', 0, '2021-12-16 20:26:09', '1639686369904-306460074.png', NULL, 9, 1),
 (16, 'Trackmania Key', 'Racing Game', '5.00', 0, '2021-12-18 15:32:02', '1639841522610-459553105.png', NULL, 12, 0),
-(17, 'Zombies', 'Game', '20.00', 0, '2021-12-19 12:52:12', '1639918332350-987211531.png', NULL, 1, 0),
-(18, 'Yoshi Game', 'nice game', '60.00', 0, '2021-12-19 13:01:41', '1639918901725-900631294.png', NULL, 1, 0),
-(19, 'Yoshi Game 2', 'good game', '59.99', 0, '2021-12-19 13:04:11', '1639919051645-742244381.png', 7, 1, 1);
+(17, 'Zombies', 'Game', '20.00', 0, '2021-12-19 12:52:12', '1639918332350-987211531.png', NULL, 1, 1),
+(18, 'Yoshi Game', 'nice game', '60.00', 0, '2021-12-19 13:01:41', '1639918901725-900631294.png', 7, 1, 1),
+(19, 'Yoshi Game 2', 'good game', '59.99', 0, '2021-12-19 13:04:11', '1639919051645-742244381.png', 7, 1, 1),
+(22, 'a', 'something', '2.00', 0, '2021-12-19 16:04:40', 'placeholder-photo.png', 3, 1, 1),
+(23, 'a', 'sosdxf', '1.00', 0, '2021-12-19 16:05:12', 'placeholder-photo.png', 5, 1, 1),
+(24, 'aa', '', '1.00', 0, '2021-12-19 16:07:44', 'placeholder-photo.png', 6, 1, 1),
+(25, 'bb', '', '0.00', 0, '2021-12-19 16:08:52', '1639930132432-376660445.jpg', 6, 1, 1),
+(26, 'cc', 'sdf', '1.00', 0, '2021-12-19 16:17:09', 'placeholder-photo.png', 5, 1, 1),
+(27, 'zz', 'dsxfsdxf', '1.00', 0, '2021-12-19 16:17:25', 'placeholder-photo.png', 1, 1, 1),
+(28, 'xx', 'dsxfsdxf', '1.00', 0, '2021-12-19 16:17:45', '1639930665950-902200617.jpg', 6, 1, 1),
+(29, 'Jeans', 'pair of slightly used jeans, light-washed', '5.00', 0, '2021-12-19 21:21:02', '1639948862571-309577729.jpg', 4, 17, 0),
+(30, 'Nice Teddy', 'plush teddy bound to make anyone happy', '1.99', 0, '2021-12-19 21:21:40', '1639948900363-763110461.jpg', 2, 17, 0),
+(31, 'Old TV', 'retro tv for people interested in vintage stuff', '0.00', 0, '2021-12-19 21:22:33', '1639948953625-864889779.jpg', 1, 17, 0),
+(32, 'Controllers', 'XBOX and PS4 controllers', '60.00', 0, '2021-12-19 21:25:51', '1639949151495-430956.jpg', 7, 9, 0),
+(33, 'Music Player', '', '46.00', 0, '2021-12-19 21:29:47', '1639949387497-34637431.jpg', 1, 9, 0),
+(34, 'sfxdfdsxfg', '456', '1.00', 0, '2021-12-19 21:31:21', 'placeholder-photo.png', 3, 9, 1),
+(35, 'dsdsfsdfgd', 'dxcgdsgs', '1.00', 0, '2021-12-19 21:33:26', '1639949606002-163332716.jpg', 3, 9, 1),
+(37, 'fsdxfsdf', 'sdfdsfsd', '4.00', 0, '2021-12-19 21:35:43', '1639949743611-966376524.jpg', 1, 9, 0),
+(38, 'Dog', '', '4.00', 0, '2021-12-19 21:39:49', '1639949989322-409108083.jpg', NULL, 9, 0),
+(39, 'Jacket', '', '15.00', 0, '2021-12-19 21:43:20', '1639950200290-599090289.jpg', 4, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -141,11 +160,12 @@ INSERT INTO `users` (`id`, `email`, `password`, `city`, `phone`, `timestamp`) VA
 (1, 'ona@mail.com', '$2a$10$Kxp6pETReIUxhLTk1T21U.OBrjrn/f5YIeUJgIWAIFhHr1vIH.3ny', 'Kaunas', '868686101', '2021-12-13 08:47:17'),
 (4, 'aldona@mail.com', '$2a$10$zNnbD5V2PMQVpnfv.3bm7.ZJZ227Pu2TtVLG0uBYKA4Q7jnJrI2fa', 'Kaunas', '868686111', '2021-12-13 08:55:56'),
 (9, 'dude@mail.com', '$2a$10$82nT11YqY/iyQM.k6izVr.GK7ccZugLKsLOFis2/eJEdM79MG1ZZC', NULL, NULL, '2021-12-13 12:53:43'),
-(11, 'guy@mail.com', '$2a$10$JZX2Vf09RIwurDflj1YkA.lszuql5T93lv1b0BfPbFsDmVnOMvGsO', NULL, NULL, '2021-12-13 13:03:26'),
+(11, 'guy@mail.com', '$2a$10$mRdcjlnY7Hn8cgdrphDUSeslbOVNg/DUQvYVwL5e4ReGO30RQaElC', 'Vilnius', NULL, '2021-12-13 13:03:26'),
 (12, 'john@mail.com', '$2a$10$EFsV/gUqrAz2Dl1uxYUg.ebDeCPjB1j7H.o9rWESEkyCMftW5Jq/i', NULL, '864686112', '2021-12-15 06:52:08'),
 (13, 'jane@mail.com', '$2a$10$bMuEAOTmUbRsL7ljMy1yQ.7VNBIMA.pDHPPMqA32zGNBpZCdkuTWm', 'Palanga', '865544103', '2021-12-15 07:56:14'),
 (14, 'sarah@mail.com', '$2a$10$XOIxAnevZo/WRQmSq2PnX.2Q9Sw/vC5nazKWnvQ0BRxd.0BRTekBi', NULL, '868626111', '2021-12-16 08:38:10'),
-(15, 'gal@mail.com', '$2a$10$8TrsgEcWtdkCLYwIEYqmAeSJdR2nQHoahK/iq1HxRWQDtVR3hbfqG', 'Palanga', '868646111', '2021-12-19 14:19:57');
+(17, 'jill@mail.com', '$2a$10$AMrTSwKttsmKCvXSb/KpBunP19B3SPBqPjM4fKFBC4EtG6w1vAgR2', 'New Klaipėda', '+37068686100', '2021-12-19 20:40:11'),
+(18, 'me@mail.com', '$2a$10$3An/z56oAZgwjMRQAraNaO74Y1CKawDih/TsRtDJ9KrKwuXG4Ii9i', 'Toronto2', '861234567', '2021-12-19 21:09:53');
 
 --
 -- Indexes for dumped tables
@@ -194,19 +214,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `listings`
 --
 ALTER TABLE `listings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
@@ -216,14 +236,14 @@ ALTER TABLE `users`
 -- Constraints for table `favorites`
 --
 ALTER TABLE `favorites`
-  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `favorites_ibfk_2` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`id`);
 
 --
 -- Constraints for table `listings`
 --
 ALTER TABLE `listings`
-  ADD CONSTRAINT `listings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `listings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `listings_ibfk_2` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`);
 COMMIT;
 
