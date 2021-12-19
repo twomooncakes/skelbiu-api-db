@@ -68,7 +68,6 @@ async function validateNewListing(req, res, next) {
 }
 
 async function validateUserInfo(req, res, next) {
-    console.log('validate', req.body);
     const schema = joi.object({
         city: joi.string().max(90).regex(/^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$/, 'letters and spaces only').optional().allow(''),
         phone: joi.string().regex(/^(\+370|8)([0-9]{8})$/).optional().allow('')
@@ -96,7 +95,6 @@ function authenticateToken(req, res, next) {
         if(err) {
             return res.status(403).json({ error: "Bad token"});
         }
-        // console.log("data in jwt", data)
         req.id = data.id;
         next();
     })
