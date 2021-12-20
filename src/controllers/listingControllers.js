@@ -146,14 +146,16 @@ const getSingleListing = async (req, res) => {
 }
 
 const editListing = async (req, res) => {
+    console.log(req.body.categoryId);
     const editedListing = {
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
         image: req.body.mainImage || req.file.filename,
-        cat_id: req.body.categoryId,
+        cat_id: parseInt(req.body.categoryId) === 0 ? null : req.body.categoryId,
         id: req.params.listingId
     }
+    console.log(editedListing);
     const sql = `
         UPDATE listings
         SET

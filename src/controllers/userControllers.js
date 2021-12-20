@@ -64,7 +64,7 @@ const editUserEmail = async (req, res) => {
 
     dbResult = await dbAction(sql, [req.body.email, req.id]);
     if(dbResult) {
-        return dbSuccess(res, {}, 'user password changed')
+        return dbSuccess(res, {}, 'user email changed successfully')
     } else {
         return dbFail(res, 'unexpected error', 500)
     }
