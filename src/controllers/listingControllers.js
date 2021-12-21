@@ -146,7 +146,6 @@ const getSingleListing = async (req, res) => {
 }
 
 const editListing = async (req, res) => {
-    console.log(req.body.categoryId);
     const editedListing = {
         title: req.body.title,
         description: req.body.description,
@@ -155,7 +154,7 @@ const editListing = async (req, res) => {
         cat_id: parseInt(req.body.categoryId) === 0 ? null : req.body.categoryId,
         id: req.params.listingId
     }
-    console.log(editedListing);
+
     const sql = `
         UPDATE listings
         SET
